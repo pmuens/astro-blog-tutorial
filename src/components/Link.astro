@@ -19,7 +19,7 @@ const {
   href,
   style,
   icon,
-  isFilled = false,
+  isFilled = true,
   borderVisible = false,
   classes,
   ...rest
@@ -38,7 +38,7 @@ const {
 >
   {
     icon && icon.side === "left" && (
-      <Icon name={icon.name} width={24} height={24} />
+      <Icon name={icon.name} height={24} width={24} />
     )
   }
 
@@ -46,7 +46,7 @@ const {
 
   {
     icon && icon.side === "right" && (
-      <Icon name={icon.name} width={24} height={24} />
+      <Icon name={icon.name} height={24} width={24} />
     )
   }
 </a>
