@@ -1,11 +1,20 @@
 ---
 import PostCard from "../../components/PostCard.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
+import Pagination from "../../components/Pagination.astro";
 
 import { formatBlogPosts } from "../../js/utils";
 
-const allPosts = await Astro.glob("./*.md");
-const formattedPosts = formatBlogPosts(allPosts);
+export const getStaticPaths = async ({ paginate }) => {
+  const allPosts = await Astro.glob("./*.md");
+  const formattedPosts = formatBlogPosts(allPosts);
+
+  return paginate(formattedPosts, {
+    pageSize: 3,
+  });
+};
+
+const { page } = Astro.props as any;
 ---
 
 <MainLayout title="My Blog">
@@ -13,7 +22,7 @@ const formattedPosts = formatBlogPosts(allPosts);
     <h1 class="h1">New Blog Posts</h1>
     <div class="post-container">
       {
-        formattedPosts.map((post) => (
+        page.data.map((post) => (
           <PostCard
             frontmatter={post.frontmatter}
             url={post.url}
@@ -22,5 +31,6 @@ const formattedPosts = formatBlogPosts(allPosts);
         ))
       }
     </div>
+    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
   </section>
 </MainLayout>
